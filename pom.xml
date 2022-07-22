@@ -90,11 +90,12 @@
         </dependency>
 
         <!--lombok-->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
+  	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>1.18.24</version>
+		<scope>provided</scope>
+	</dependency>
 
         <!-- model mapper -->
         <dependency>
@@ -167,13 +168,6 @@
 
 	<build>
 		<plugins>
-		
-		  <!-- for maven -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
-            </plugin>
 		
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

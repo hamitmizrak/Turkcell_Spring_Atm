@@ -13,6 +13,7 @@ public class TurkcellAtmProjectWarApplication {
 		System.setProperty("spring.devtools.restart.enabled", "true");
 		System.setProperty("java.awt.headless", "false"); // Disables headless
 		SpringApplication.run(TurkcellAtmProjectWarApplication.class, args);
+		
 	}
 	
 }
