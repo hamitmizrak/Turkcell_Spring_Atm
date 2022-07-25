@@ -1,41 +1,24 @@
 package com.hamitmizrak.atm.sql.dto;
 
+import lombok.Data;
+
+@Data
 public class CustomerDto extends BaseEntity {
+	private static final long serialVersionUID = 1L;
 	
+	// Object variable
 	private String userName;
 	private String userSurname;
 	private String userPassword;
 	
+	// parametresiz constructor
 	public CustomerDto() {
 	}
 	
+	// parametreli constructor
 	public CustomerDto(String userName, String userSurname, String userPassword) {
 		this.userName = userName;
 		this.userSurname = userSurname;
-		this.userPassword = userPassword;
-	}
-	
-	public String getUserName() {
-		return userName;
-	}
-	
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	
-	public String getUserSurname() {
-		return userSurname;
-	}
-	
-	public void setUserSurname(String userSurname) {
-		this.userSurname = userSurname;
-	}
-	
-	public String getUserPassword() {
-		return userPassword;
-	}
-	
-	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
 	}
 	

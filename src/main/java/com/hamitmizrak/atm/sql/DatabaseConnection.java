@@ -53,7 +53,7 @@ public class DatabaseConnection extends DatabaseInformation {
 	}
 	
 	public static void main(String[] args) {
-		DatabaseConnection connection = new DatabaseConnection();
+		// DatabaseConnection connection = new DatabaseConnection();
 	}
 	
 }

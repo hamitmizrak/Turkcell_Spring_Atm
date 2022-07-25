@@ -1,26 +1,16 @@
 package com.hamitmizrak.atm.sql.dto;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-abstract public class BaseEntity {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+abstract public class BaseEntity implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private Date createdDate;
-	
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-	
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-	
 }
