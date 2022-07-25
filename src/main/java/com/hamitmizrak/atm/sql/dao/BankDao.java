@@ -4,12 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
-import com.hamitmizrak.atm.sql.dto.CustomerDto;
+import com.hamitmizrak.atm.sql.dto.BankDto;
 
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-public class CustomerDao implements IDaoConnection<CustomerDto> {
+public class BankDao implements IDaoConnection<BankDto> {
 	
 	// private String userName;
 	// private String userSurname;
@@ -17,22 +17,20 @@ public class CustomerDao implements IDaoConnection<CustomerDto> {
 	
 	// CREATE
 	@Override
-	public void create(CustomerDto customerDto) {
+	public void create(BankDto banDto) {
 		try (Connection connection = getInterfaceConnection()) {
 			String sql = "insert into customer () values ()";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setString(1, customerDto.getUserName());
-			preparedStatement.setString(2, customerDto.getUserSurname());
-			preparedStatement.setString(3, customerDto.getUserPassword());
-			
+			preparedStatement.setString(1, banDto.getBankName());
+			preparedStatement.setString(2, banDto.getBranchName());
 			int rowEffected = preparedStatement.executeUpdate();
 			if (rowEffected > 0) {
-				log.info(CustomerDto.class + " Ekleme Baþarýlý");
+				log.info(BankDto.class + " Ekleme Baþarýlý");
 			} else {
-				log.error(CustomerDto.class + " !!!! Ekleme Baþarýsýz");
+				log.error(BankDto.class + " !!!! Ekleme Baþarýsýz");
 			}
 		} catch (Exception e) {
-			log.error(CustomerDto.class + " !!!! Ekleme sýrasýnda hata meydana geldi");
+			log.error(BankDto.class + " !!!! Ekleme sýrasýnda hata meydana geldi");
 			e.printStackTrace();
 		}
 		
@@ -40,21 +38,21 @@ public class CustomerDao implements IDaoConnection<CustomerDto> {
 	
 	// UPDATE
 	@Override
-	public void update(CustomerDto customerDto) {
+	public void update(BankDto banDto) {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	// DELETE
 	@Override
-	public void delete(CustomerDto customerDto) {
+	public void delete(BankDto banDto) {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	// LÝST
 	@Override
-	public ArrayList<CustomerDto> list() {
+	public ArrayList<BankDto> list() {
 		// TODO Auto-generated method stub
 		return null;
 	}
