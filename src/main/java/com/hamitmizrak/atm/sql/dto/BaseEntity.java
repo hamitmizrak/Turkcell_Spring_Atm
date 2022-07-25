@@ -6,19 +6,18 @@ import java.sql.Date;
 import lombok.Data;
 
 @Data
-
 abstract public class BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private Date createdDate;
 	
+	// parametresiz constructor
 	public BaseEntity() {
-		super();
 	}
 	
+	// parametreli constructor
 	public BaseEntity(Long id) {
-		super();
 		this.id = id;
 	}
 	
