@@ -11,6 +11,13 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class RegisterDao implements IDaoConnection<RegisterDto> {
+	// transaction: insert, delete,update
+	// connection.setAutoCommit(false); ==> Defaultta true biz false yaparak
+	// transaction çalýþmasýný aktifleþtiriyoruz.
+	
+	// connection.commit(); ==> Eðer Baþarýlýysa sistem çalýþsýn ve devam etsin
+	// connection.rollBack() ; ==> Eðer Baþarýsýzsa sistem çalýþmasýn ve ilk baþtaki
+	// duruma geçer
 	
 	// Database user search
 	public RegisterDto isThereUser(RegisterDto registerDto) {
@@ -39,6 +46,8 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
 	@Override
 	public void create(RegisterDto registerDto) {
 		try (Connection connection = getInterfaceConnection()) {
+			
+			connection.setAutoCommit(false); // transaction
 			String sql = "insert into  register (register_name,register_surname,register_password,register_email_address) values (?,?,?,?);";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, registerDto.getRegisterName());
@@ -48,8 +57,10 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
 			int rowEffected = preparedStatement.executeUpdate();
 			if (rowEffected > 0) {
 				log.info(RegisterDto.class + " Ekleme Baþarýlý");
+				connection.commit(); // transaction
 			} else {
 				log.error(RegisterDto.class + " !!!! Ekleme Baþarýsýz");
+				connection.rollback(); // transaction
 			}
 		} catch (Exception e) {
 			log.error(RegisterDto.class + " !!!! Ekleme sýrasýnda hata meydana geldi");
@@ -62,6 +73,7 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
 	@Override
 	public void update(RegisterDto registerDto) {
 		try (Connection connection = getInterfaceConnection()) {
+			connection.setAutoCommit(false);
 			String sql = "update bank set bank_name=?,branch_name=? where bank_id=?;";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, registerDto.getRegisterName());
@@ -72,8 +84,10 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
 			int rowEffected = preparedStatement.executeUpdate();
 			if (rowEffected > 0) {
 				log.info(RegisterDto.class + " Güncelleme Baþarýlý");
+				connection.commit();
 			} else {
 				log.error(RegisterDto.class + " !!!! Güncelleme Baþarýsýz");
+				connection.rollback();
 			}
 		} catch (Exception e) {
 			log.error(RegisterDto.class + " !!!! Güncelleme sýrasýnda hata meydana geldi");
@@ -85,14 +99,17 @@ public class RegisterDao implements IDaoConnection<RegisterDto> {
 	@Override
 	public void delete(RegisterDto registerDto) {
 		try (Connection connection = getInterfaceConnection()) {
+			connection.setAutoCommit(false);
 			String sql = "delete from  bank  where bank_id=?;";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setLong(1, registerDto.getId());
 			int rowEffected = preparedStatement.executeUpdate();
 			if (rowEffected > 0) {
 				log.info(RegisterDto.class + " Silme Baþarýlý");
+				connection.commit();
 			} else {
 				log.error(RegisterDto.class + " !!!! Silme Baþarýsýz");
+				connection.rollback();
 			}
 		} catch (Exception e) {
 			log.error(RegisterDto.class + " !!!! Silme sýrasýnda hata meydana geldi");

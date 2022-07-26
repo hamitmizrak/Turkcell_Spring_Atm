@@ -16,6 +16,7 @@ public class BankDao implements IDaoConnection<BankDto> {
 	@Override
 	public void create(BankDto banDto) {
 		try (Connection connection = getInterfaceConnection()) {
+			connection.setAutoCommit(false);
 			String sql = "insert into  bank (bank_name,branch_name) values (?,?);";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, banDto.getBankName());
@@ -23,8 +24,10 @@ public class BankDao implements IDaoConnection<BankDto> {
 			int rowEffected = preparedStatement.executeUpdate();
 			if (rowEffected > 0) {
 				log.info(BankDto.class + " Ekleme Baþarýlý");
+				connection.commit();
 			} else {
 				log.error(BankDto.class + " !!!! Ekleme Baþarýsýz");
+				connection.rollback();
 			}
 		} catch (Exception e) {
 			log.error(BankDto.class + " !!!! Ekleme sýrasýnda hata meydana geldi");
@@ -37,6 +40,7 @@ public class BankDao implements IDaoConnection<BankDto> {
 	@Override
 	public void update(BankDto banDto) {
 		try (Connection connection = getInterfaceConnection()) {
+			connection.setAutoCommit(false);
 			String sql = "update bank set bank_name=?,branch_name=? where bank_id=?;";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, banDto.getBankName());
@@ -45,8 +49,10 @@ public class BankDao implements IDaoConnection<BankDto> {
 			int rowEffected = preparedStatement.executeUpdate();
 			if (rowEffected > 0) {
 				log.info(BankDto.class + " Güncelleme Baþarýlý");
+				connection.commit();
 			} else {
 				log.error(BankDto.class + " !!!! Güncelleme Baþarýsýz");
+				connection.rollback();
 			}
 		} catch (Exception e) {
 			log.error(BankDto.class + " !!!! Güncelleme sýrasýnda hata meydana geldi");
@@ -58,14 +64,17 @@ public class BankDao implements IDaoConnection<BankDto> {
 	@Override
 	public void delete(BankDto banDto) {
 		try (Connection connection = getInterfaceConnection()) {
+			connection.setAutoCommit(false);
 			String sql = "delete from  bank  where bank_id=?;";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setLong(1, banDto.getId());
 			int rowEffected = preparedStatement.executeUpdate();
 			if (rowEffected > 0) {
 				log.info(BankDto.class + " Silme Baþarýlý");
+				connection.commit();
 			} else {
 				log.error(BankDto.class + " !!!! Silme Baþarýsýz");
+				connection.rollback();
 			}
 		} catch (Exception e) {
 			log.error(BankDto.class + " !!!! Silme sýrasýnda hata meydana geldi");
