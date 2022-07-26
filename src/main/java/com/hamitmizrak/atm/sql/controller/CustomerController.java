@@ -42,6 +42,11 @@ public class CustomerController implements IControllerBank<CustomerDto> {
 	public static void main(String[] args) {
 		CustomerController customerController = new CustomerController();
 		
+		// 1- Bank Ekleyeceðiz
+		// 2- Customer 2
+		// 3- inner joinler pgAdmin sorgusunun atalalým
+		// 4- Java MEthodunda 3 adýmý yazalým ?
+		
 		// INSERT
 		// CustomerDto customerDto = BankDto.builder().bankName("Banka
 		// 44").branchName("Malatya").build();
