@@ -9,8 +9,8 @@ import lombok.Data;
 abstract public class BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
-	private Date createdDate;
+	protected Long id;
+	protected Date createdDate;
 	
 	// parametresiz constructor
 	public BaseEntity() {

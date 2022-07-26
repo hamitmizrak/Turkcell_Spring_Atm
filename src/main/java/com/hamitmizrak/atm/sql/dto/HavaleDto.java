@@ -7,7 +7,7 @@ public class HavaleDto extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 	
 	private String havaleName;
-	private String havaleAmount;
+	private double havaleAmount;
 	
 	// parametresiz constructor
 	public HavaleDto() {
@@ -15,7 +15,7 @@ public class HavaleDto extends BaseEntity {
 	}
 	
 	// parametreli constructor
-	public HavaleDto(Long id, String havaleName, String havaleAmount) {
+	public HavaleDto(Long id, String havaleName, double havaleAmount) {
 		super(id);
 		this.havaleName = havaleName;
 		this.havaleAmount = havaleAmount;

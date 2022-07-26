@@ -2,38 +2,51 @@ package com.hamitmizrak.atm.sql.dto;
 
 import java.util.Scanner;
 
-import javax.swing.JOptionPane;
-
 import com.hamitmizrak.atm.IAtm;
+import com.hamitmizrak.atm.sql.dao.RegisterDao;
 
 public class AtmDto implements IAtm {
 	
-	LoginDto loginDto;
+	// object variable
+	RegisterDto loginDto;
 	SafeDto kasa;
+	Scanner klavye;
+	RegisterDto registerDto;
+	RegisterDao registerDao;
+	RegisterDto registerDto2;
 	
+	// parametresiz constructor
 	public AtmDto() {
-		loginDto = new LoginDto();
+		loginDto = new RegisterDto();
 		kasa = new SafeDto();
+		klavye = new Scanner(System.in);
+		registerDto = new RegisterDto();
+		registerDao = new RegisterDao();
+		registerDto2 = new RegisterDto();
 	}
 	
+	// database login bilgisi
 	@Override
 	public boolean bankGiris() {
-		// database login bilgisi
-		String databasePassword = loginDto.getUserPassword();
-		
 		// kullanýcýdan alacaðým password
-		String userPassord;
+		String userPassword;
 		
 		// login giriþ hakký 3
 		int counter = 3;
 		
 		// kullanýcý doðru girene kadar sisteme giriþ yapýlacak 3 hakkýmýz bulunuyor.
 		while (counter > 0) {
-			userPassord = JOptionPane.showInputDialog("Lütfen þifre giriniz");
-			if (databasePassword.equals(userPassord)) {
-				System.out.println("Bank Seçime Yönlendiriliyorsunuz");
-				secim();
-				return true;
+			System.out.println("Lütfen Þifreyi Giriniz");
+			userPassword = klavye.nextLine();
+			registerDto.setRegisterPassword(userPassword);
+			registerDto2 = registerDao.isThereUser(registerDto);
+			
+			if (registerDto2 != null) {
+				if (registerDto2.getRegisterPassword().equals(userPassword)) {
+					System.out.println("Bank Seçime Yönlendiriliyorsunuz");
+					secim();
+					return true;
+				}
 			}
 			counter--;
 			System.out.println("Kalan hakkýnýz: " + counter);
@@ -48,8 +61,8 @@ public class AtmDto implements IAtm {
 	@Override
 	public void secim() {
 		while (true) {
-			System.out.println("Seçim yapýnýz");
-			System.out.println("1-)Ozet\n2-)Para Ekle\n3-)Para Cek\n4-)Cikis");
+			System.out.println("\nSeçim yapýnýz");
+			System.out.println("1-)Ozet\n2-)Para Ekle\n3-)Para Cek\n4-)EFT\n5-)HAVALE\n6-)Cikis");
 			Scanner klavye = new Scanner(System.in);
 			int chooise = klavye.nextInt();
 			
@@ -65,10 +78,18 @@ public class AtmDto implements IAtm {
 				case 3:
 					paraCek();
 					break;
-				
 				case 4:
-					System.out.println("Atm Çýkýþ Yapýlýyor");
-					System.exit(0);
+					eft();
+					break;
+				case 5:
+					havale();
+					break;
+				
+				case 6:
+					System.out.println("Atm Çýkýþ Yapýlýyor\n devam etmek icin bir tusa basiniz");
+					klavye.hasNext();
+					AvmDto avmDto = new AvmDto();
+					avmDto.avmMain();
 					break;
 				
 				default:
@@ -77,6 +98,36 @@ public class AtmDto implements IAtm {
 					break;
 			}
 		}
+	}
+	
+	// HAVALE
+	private void havale() {
+		System.out.println("**********Havale Ýþlemleri***********");
+		HavaleDto havaleDto = new HavaleDto();
+		System.out.println("Havale Adýný giriniz");
+		havaleDto.setHavaleName(klavye.nextLine());
+		System.out.println("Havale Miktarýný giriniz");
+		double amout = klavye.nextDouble();
+		havaleDto.setHavaleAmount(amout);
+		System.out.println("Yapýlan Havale adý: " + havaleDto.getHavaleName());
+		System.out.println("Yapýlan Havale Miktarý: " + havaleDto.getHavaleAmount());
+		kasa.amount -= havaleDto.getHavaleAmount();
+		System.out.println("Kalan Miktarýnýz: " + kasa.amount);
+	}
+	
+	// EFT
+	private void eft() {
+		System.out.println("**********Eft Ýþlemleri***********");
+		EftDto eftDto = new EftDto();
+		System.out.println("Eft Adýný giriniz");
+		eftDto.setEftName(klavye.nextLine());
+		System.out.println("Eft Miktarýný giriniz");
+		double amout = klavye.nextDouble();
+		eftDto.setEftAmount(amout);
+		System.out.println("Yapýlan Eft adý: " + eftDto.getEftName());
+		System.out.println("Yapýlan Eft Miktarý: " + eftDto.getEftAmount());
+		kasa.amount -= eftDto.getEftAmount();
+		System.out.println("Kalan Miktarýnýz: " + kasa.amount);
 	}
 	
 	@Override
@@ -96,7 +147,7 @@ public class AtmDto implements IAtm {
 		Scanner klavye = new Scanner(System.in);
 		System.out.println("Eklenecek Para miktarý yazýnýz");
 		double addMoney = klavye.nextDouble();
-		SafeDto.amount += addMoney;
+		kasa.amount += addMoney;
 		System.out.println("Bakiyeniz: " + kasa.getAmount());
 		
 	}
@@ -108,13 +159,13 @@ public class AtmDto implements IAtm {
 		double reduceMoney = klavye.nextDouble();
 		
 		// ek hesaptan en fazla -1000 kadar gidebilir.
-		if (SafeDto.amount <= 0) {
+		if (kasa.amount <= 0) {
 			System.out.println("Öncelikle Para eklemelisiniz");
 		} else if (reduceMoney >= 5000) {
 			System.out.println(
 					" çekeceðiniz miktar " + reduceMoney + "ancak Tek seferde 5000 TL kadar  Para çekebilirsiniz");
 		} else {
-			SafeDto.amount -= reduceMoney;
+			kasa.amount -= reduceMoney;
 			System.out.println("Bakiyeniz: " + kasa.getAmount());
 		}
 		

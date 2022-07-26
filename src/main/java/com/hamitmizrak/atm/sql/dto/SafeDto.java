@@ -6,7 +6,7 @@ import lombok.extern.log4j.Log4j2;
 public class SafeDto {
 	
 	// kasadaki para miktarý
-	public static double amount = 1000;
+	public double amount = 1000;
 	
 	// parametresiz constructor
 	public SafeDto() {
@@ -14,7 +14,7 @@ public class SafeDto {
 	
 	// parametreli constructor
 	public SafeDto(double amount) {
-		SafeDto.amount = amount;
+		this.amount = amount;
 	}
 	
 	// getter and setter
@@ -26,7 +26,7 @@ public class SafeDto {
 		if (amount <= 0) {
 			System.out.println("Öncelikle Kasaya para eklemelisiniz");
 		} else {
-			SafeDto.amount = amount;
+			this.amount = amount;
 		}
 	}
 	
