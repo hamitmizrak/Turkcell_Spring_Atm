@@ -43,7 +43,7 @@ public class CustomerController implements IControllerBank<CustomerDto> {
 		CustomerController customerController = new CustomerController();
 		
 		// 1- Bank Ekleyeceðiz
-		// 2- Customer 2
+		// 2- Customer 2 tane kayýt
 		// 3- inner joinler pgAdmin sorgusunun atalalým
 		// 4- Java MEthodunda 3 adýmý yazalým ?
 		
