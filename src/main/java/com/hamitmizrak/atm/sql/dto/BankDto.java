@@ -1,16 +1,20 @@
 package com.hamitmizrak.atm.sql.dto;
 
-import lombok.Builder;
+import java.util.List;
+
 import lombok.Data;
 
 @Data
-@Builder
+// Bank(1) Customer(N)
 public class BankDto extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 	
 	// Object variable
 	private String bankName;
 	private String branchName;
+	
+	// composition
+	List<CustomerDto> customerList;
 	
 	// parametresiz constructor
 	public BankDto() {
