@@ -20,7 +20,7 @@ abstract public class DatabaseInformation {
 		this.forNameData = "org.postgresql.Driver";
 		
 		// mysql
-		// this.url = "jdbc:mysql://localhostİ:3306/turkcell_db";
+		// this.url = "jdbc:mysql://localhostt:3306/turkcell_db";
 		// this.userName = "postgres";
 		// this.userPassword = "root";
 		// this.forNameData = "com.mysql.jdbc.Driver";
